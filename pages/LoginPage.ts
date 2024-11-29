@@ -22,6 +22,7 @@ export class LoginPage extends playwright_Wrapper {
         //console.log(await this.page.locator('#Login').getAttribute('value'));
         await this.click('#Login', 'Log_In', 'InputButton');
         await expect(this.page).toHaveURL(/.*SetupOneHome/);
+        await this.page.waitForLoadState('networkidle');
         await expect(this.page).toHaveTitle(/.*Home | salesforce/);
         await this.page.context().storageState({path:"AuthStorage/sales_login_storage.json"});        
     }

@@ -36,7 +36,13 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { 
+        ...devices['Desktop Chrome'],
+/*         launchOptions: {
+          args: ["--start-maximized"] // Starts Chromium in maximized window mode
+        }, */
+        actionTimeout: 90000,
+    }
     },
 
 /*     {

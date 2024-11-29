@@ -11,6 +11,10 @@
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.48.1",
+    "@types/jsonfile": "^6.1.4",
     "@types/node": "^22.7.9"
+  },
+  "dependencies": {
+    "jsonfile": "^6.1.0"
   }
 }

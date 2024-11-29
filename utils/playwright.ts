@@ -1,5 +1,4 @@
-import {Page, test, expect, chromium, BrowserContext, Locator} from '@playwright/test'
-import exp from 'constants';
+import {Page, test, expect, chromium, BrowserContext, Locator, Frame, FrameLocator} from '@playwright/test'
 
 export abstract class playwright_Wrapper{
     readonly page: Page
@@ -32,6 +31,21 @@ export abstract class playwright_Wrapper{
         test.step(`the ${name} ${type} is forced click`, async()=>{
             await this.page.waitForSelector(locator, {state: 'visible'});
             await this.page.locator(locator).click({force: true});
+        })
+    }
+
+    async typeEnter(locator: string, name: string, type: string):Promise<void> {
+        test.step(`Textbox ${name} filled with ${type} application`, async()=>{
+            await this.page.waitForSelector(locator, {state: 'attached'});
+            await this.page.locator(locator).fill(type);
+            await this.page.keyboard.press('Enter');
+        })
+    }
+
+    async typeFill(locator: string, name: string, type: string):Promise<void> {
+        test.step(`TextBox ${name} filled with ${type} application`, async()=>{
+            await this.page.waitForSelector(locator, {state: 'attached'});
+            await this.page.locator(locator).fill(type);
         })
     }
 
@@ -89,6 +103,15 @@ export abstract class playwright_Wrapper{
         })
     }
 
+    async waitForDialogAssert(locator: string, text: string, timeoutNumber: number){
+        await test.step(`${text} dialog is visible to appeared and assert the dialog`, async()=>{
+            const element = await this.page.locator(locator).getByText(text, {exact: true});
+            await element.waitFor({state: 'attached', timeout: timeoutNumber});
+            await expect(element).toContainText(text);
+        })
+
+    }
+
     async getText(locator: string): Promise<string> {
         return await test.step(`Getting text from the ${locator}`, async()=>{            
             await this.page.waitForSelector(locator, {state: 'attached'});
@@ -116,4 +139,23 @@ export abstract class playwright_Wrapper{
         })
     }
     
+    async getIframe(locator: string): Promise<FrameLocator>{
+        return await test.step(`return iframe element`, async()=>{
+            const iframe = this.page.frameLocator(locator);
+            return iframe;
+        })
+    }
+
+    async iframeFill(locator: string, fillText: string, fillTextBox: string): Promise<void>{
+        await test.step(`getiframe and ${fillText} in the ${fillTextBox}`, async()=>{
+            await this.page.frameLocator(locator).locator(fillTextBox).fill(fillText);
+        })
+    }
+
+    async iframeClick(locator: string, fillbutton: string): Promise<void>{
+        await test.step(`getiframe and click the ${fillbutton}`, async()=>{
+            await this.page.waitForSelector(locator, {state: 'attached'});
+            await this.page.frameLocator(locator).locator(fillbutton).click();
+        })
+    }
 }
