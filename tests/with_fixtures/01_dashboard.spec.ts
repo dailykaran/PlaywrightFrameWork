@@ -3,6 +3,7 @@ import { Page, expect} from '@playwright/test'
 import{ dashboradPage } from '../../pages/dashboard'
 import { Homepage } from '../../pages/HomePage'
 import { readJsonfile } from '../../dataUtilities/jsonUtils'
+import {FakerData } from '../../utils/faker';
 
 test.use({storageState: "AuthStorage/sales_login_storage.json"})
 /* test(`Create a new dashboard`, async ({page, context})=>{
@@ -53,7 +54,7 @@ test.describe('Salesforce for creating a new dasboard', ()=>{
         await home.clickAppLauncher();
         await home.clickViewAll();
     
-        for(const dataDash of jsonData) {
+        /* for(const dataDash of jsonData) {
             dashboard.serachDashboard(dataDash.searchDashboardData);
             dashboard.clickDashboardLink();
         
@@ -66,8 +67,19 @@ test.describe('Salesforce for creating a new dasboard', ()=>{
             await dashboard.dashboardSave();
             await dashboard.assertToastMessageBar('Dashboard');
 
-        }
+        } */
 
+            dashboard.serachDashboard("marketing");
+            dashboard.clickDashboardLink();
+        
+            await dashboard.openNewDashboard();
+            await dashboard.dashboardDiscription(FakerData.getDescription());
+            await dashboard.dashboardName(FakerData.getPersonFirstName());
+            await dashboard.newDashBoardSubmit();
+            await dashboard.dashboardClick();
+            await dashboard.dashboardEdit(FakerData.getPersonFirstName());
+            await dashboard.dashboardSave();
+            await dashboard.assertToastMessageBar('Dashboard');
     })
 })
 

@@ -13,36 +13,62 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './tests',
+  
+  timeout: 300 * 1000,
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 2 : 1,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 1 : 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  //reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+
+  reporter: [
+    // HTML reporter that automatically opens the report
+    ['html', { open: 'always' }],
+    // JSON reporter that outputs results to a specific file
+    ['json', { outputFile: 'reports/report.json' }],
+    // Allure reporter for detailed test reports
+    ['allure-playwright', {
+      detail: true,
+      outputFolder: "my-allure-results",
+      suiteTitle: false,
+    }],
+  ],
+
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
+
+    headless: false,
+
+    video: "off",
+
+    screenshot: "only-on-failure",
+
+    storageState: "AuthStorage/sales_login_storage.json"
   },
 
+  outputDir: './test-results',  
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
+      name: 'Google Chrome',
       use: { 
         ...devices['Desktop Chrome'],
+        channel: "chrome",
 /*         launchOptions: {
           args: ["--start-maximized"] // Starts Chromium in maximized window mode
         }, */
-        actionTimeout: 90000,
-    }
+        actionTimeout: 15000,
+      }
     },
 
 /*     {
