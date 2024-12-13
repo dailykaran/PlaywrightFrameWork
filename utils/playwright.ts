@@ -158,4 +158,12 @@ export abstract class playwright_Wrapper{
             await this.page.frameLocator(locator).locator(fillbutton).click();
         })
     }
+
+    async delayediFrameFill(iframeselector: string, selector: string, value: string): Promise<void>{
+        await this.page.delayedFill(iframeselector, selector, value);
+    }
+
+    async delayedClick(selector: string): Promise<void>{
+        await this.page.clickAndDelay(selector);
+    }
 }

@@ -5,12 +5,13 @@ import {playwright_Wrapper} from "../utils/playwright"
 import { mergeTests  } from "@playwright/test";
 import { test as baseTestBeforeAfter } from "../customFixtures/utilsBeforeAfterEach"
 import { test as exceptionHandles} from "./exceptionHandles"
+import { LogoutPage } from "../pages/logoutPage";
 
 type salesforceFixtures = {
     login: LoginPage,
     home: Homepage,
     dashboard: dashboradPage,
-//    beforeafter: BeforeAfterEach
+    logout: LogoutPage
 }
 
 export const test = mergeTests(baseTestBeforeAfter, exceptionHandles).extend<
@@ -32,6 +33,11 @@ dashboard: async({page, context}, use) =>{
     await use(dashboard);
 },
 
+logout: async({page, context}, use) => {
+    const logout = new LogoutPage(page, context);
+    await logout.logoutDo();
+    await use(logout);
+}
 })
 
 

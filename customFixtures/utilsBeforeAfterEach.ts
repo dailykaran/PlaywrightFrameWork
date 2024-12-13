@@ -12,7 +12,7 @@ export const test = baseTestBeforeAfter.extend<{
       // before test
       test.info().annotations.push({
         type: "Start",
-        description: new Date().toISOString(),
+        description: new Date().toString(),
       });
 
       await use();
@@ -20,7 +20,7 @@ export const test = baseTestBeforeAfter.extend<{
       // after test
       test.info().annotations.push({
         type: "End",
-        description: new Date().toISOString(),
+        description: new Date().toString(),
       });
     },
     { auto: true },

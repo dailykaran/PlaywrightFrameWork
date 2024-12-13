@@ -29,7 +29,7 @@ export default defineConfig({
 
   reporter: [
     // HTML reporter that automatically opens the report
-    ['html', { open: 'always' }],
+    ['html', { open: 'on-failure' }],
     // JSON reporter that outputs results to a specific file
     ['json', { outputFile: 'reports/report.json' }],
     // Allure reporter for detailed test reports
@@ -59,6 +59,8 @@ export default defineConfig({
   outputDir: './test-results',  
   /* Configure projects for major browsers */
   projects: [
+    { name: 'setup', testMatch: /.*\.setup\.ts/, teardown: "teardown" },
+    {name: 'teardown', testMatch: /.*\.teardown\.ts/},
     {
       name: 'Google Chrome',
       use: { 
@@ -67,8 +69,10 @@ export default defineConfig({
 /*         launchOptions: {
           args: ["--start-maximized"] // Starts Chromium in maximized window mode
         }, */
+        storageState: 'playwright/.AuthStorage/sales_login_storage.json',
         actionTimeout: 15000,
-      }
+      },
+      dependencies: ['setup'],
     },
 
 /*     {

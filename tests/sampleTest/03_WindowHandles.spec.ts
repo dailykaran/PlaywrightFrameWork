@@ -1,6 +1,6 @@
 import {test, expect, chromium} from "@playwright/test"
-import { Homepage } from "../utils/playwright1"
-import { wrapper } from "../utils/playwright1"
+//import { Homepage } from "../utils/playwright1"
+import { wrapper } from "../../utils/playwright1"
 
 test('Handling the concurrent method on sales force page', async({page, context}) => {
 

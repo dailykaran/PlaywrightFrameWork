@@ -53,5 +53,10 @@ export class dashboradPage extends playwright_Wrapper{
         const toastMsg = await this.getText('span.toastMessage.forceActionsText');
         await expect(toastMsg).toContain(message);
     }
+
+    async dashboardDelayedEdit(editContent: string){
+        await this.delayediFrameFill('iframe[title="dashboard"]', 'input#edit-dashboard-title', editContent);
+        await this.page.waitForLoadState('networkidle');
+    }
 }
 
