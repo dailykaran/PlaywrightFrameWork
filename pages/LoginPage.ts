@@ -25,9 +25,6 @@ export class LoginPage extends playwright_Wrapper {
         await this.page.waitForLoadState('networkidle');
         await expect(this.page).toHaveTitle(/.*Home | salesforce/);
         await this.page.context().storageState({path:"AuthStorage/sales_login_storage.json"});}
-
-    
-
     
 }
 

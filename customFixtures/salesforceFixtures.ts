@@ -5,6 +5,7 @@ import {playwright_Wrapper} from "../utils/playwright"
 import { mergeTests  } from "@playwright/test";
 import { test as baseTestBeforeAfter } from "../customFixtures/utilsBeforeAfterEach"
 import { test as exceptionHandles} from "./exceptionHandles"
+import {test as delayAction} from "../utils/retryDelay"
 import { LogoutPage } from "../pages/logoutPage";
 
 type salesforceFixtures = {
@@ -14,7 +15,7 @@ type salesforceFixtures = {
     logout: LogoutPage
 }
 
-export const test = mergeTests(baseTestBeforeAfter, exceptionHandles).extend<
+export const test = mergeTests(baseTestBeforeAfter, exceptionHandles, delayAction).extend<
     salesforceFixtures>({
 
 login: async({page, context}, use) =>{

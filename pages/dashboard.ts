@@ -55,8 +55,7 @@ export class dashboradPage extends playwright_Wrapper{
     }
 
     async dashboardDelayedEdit(editContent: string){
-        await this.delayediFrameFill('iframe[title="dashboard"]', 'input#edit-dashboard-title', editContent);
-        await this.page.waitForLoadState('networkidle');
+        await this.page.delayedFill('iframe[title="dashboard"]', 'input#edit-dashboard-title', editContent);
     }
 }
 

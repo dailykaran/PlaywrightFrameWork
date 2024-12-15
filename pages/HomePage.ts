@@ -36,4 +36,8 @@ export class Homepage extends playwright_Wrapper{
         await this.waitForDialogAssert('one-app-launcher-modal h2', 'App Launcher', 6000);
     }
 
+    async delayClickViewAll(){
+        await this.delayedClick("one-app-launcher-menu button");
+    }
+        
 }

@@ -36,6 +36,7 @@ test.describe('Salesforce for creating a new dasboard', ()=>{
         await dashboard.dashboardName(FakerData.getPersonFirstName());
         await dashboard.newDashBoardSubmit();
         await dashboard.dashboardClick();
+
         await dashboard.dashboardDelayedEdit(FakerData.getPersonFirstName());
         await dashboard.dashboardSave();
         await dashboard.assertToastMessageBar('Dashboard');
