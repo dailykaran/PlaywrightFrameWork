@@ -66,9 +66,10 @@ export default defineConfig({
       use: { 
         ...devices['Desktop Chrome'],
         channel: "chrome",
-/*         launchOptions: {
-          args: ["--start-maximized"] // Starts Chromium in maximized window mode
-        }, */
+        launchOptions: {
+          //args: ["--start-maximized"] // Starts Chromium in maximized window mode
+          slowMo: 50
+        },
         storageState: 'playwright/.AuthStorage/sales_login_storage.json',
         actionTimeout: 15000,
       },

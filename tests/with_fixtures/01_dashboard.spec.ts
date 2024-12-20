@@ -28,7 +28,7 @@ test.describe('Salesforce for creating a new dasboard', ()=>{
         await home.clickAppLauncher();
         await home.clickViewAll();
     
-        await dashboard.serachDashboard("marketing");
+        await dashboard.serachDashboard("dashboards");
         await dashboard.clickDashboardLink();
         
         await dashboard.openNewDashboard();
@@ -39,7 +39,7 @@ test.describe('Salesforce for creating a new dasboard', ()=>{
 
         await dashboard.dashboardDelayedEdit(FakerData.getPersonFirstName());
         await dashboard.dashboardSave();
-        await dashboard.assertToastMessageBar('Dashboard');
+        await dashboard.assertToastMessageBar('Dashboards');
     })
 })
 

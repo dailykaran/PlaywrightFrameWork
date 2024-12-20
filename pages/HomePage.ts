@@ -39,5 +39,13 @@ export class Homepage extends playwright_Wrapper{
     async delayClickViewAll(){
         await this.delayedClick("one-app-launcher-menu button");
     }
-        
+
+    async digitalClickAppLauncher() {
+        await this.click("one-app-launcher-header button[title='App Launcher']", "App Launcher", "Toggle Button");
+    }
+
+    async digitalClickViewAll(){
+        await this.click("one-app-launcher-menu lightning-button button", "View All", "Button");
+    }
+       
 }

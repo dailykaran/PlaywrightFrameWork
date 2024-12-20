@@ -10,7 +10,7 @@ test.describe.configure({ mode: 'serial' });
     let instUrl:any;
     let id:any;
 
-    test('Generate the access token Salesforce', async({request, page}) => {
+    test.only('Generate the access token Salesforce', async({request, page}) => {
         const url = "https://login.salesforce.com/services/oauth2/token"
         const clientID = "3MVG9WVXk15qiz1J6CJCjggObyuHAjc_kV9.Ep5bdrXNTWxNZwA3u8pOIOhdtGRIcL9_nIhFbedSCkXzq2elS"
         const clientSecret = "C1AD2B3466BB86766A01759A9E8F43686F379E4081E6E068E36A7C69FB8A947D"
@@ -49,7 +49,7 @@ test.describe.configure({ mode: 'serial' });
 
     })
 
-    test.skip("Create a new Lead", async({request})=>{
+    test("Create a new Lead", async({request})=>{
         const leadURL = `${instUrl}/services/data/v61.0/sobjects/Lead`;
         const lead = await request.post(leadURL, {
             headers:{
@@ -74,7 +74,7 @@ test.describe.configure({ mode: 'serial' });
    
     })
 
-    test.skip("Lead updated by patch", async({request})=>{
+    test("Lead updated by patch", async({request})=>{
         const leadURL = `${instUrl}/services/data/v61.0/sobjects/Lead/${id}`;
         const lead = await request.patch(leadURL, 
             {
@@ -95,7 +95,7 @@ test.describe.configure({ mode: 'serial' });
     })
 
 
-    test("Login with Auth0", async({request})=>{
+    test("Login with Auth0", async({request, page})=>{
         const loginURL = `${instUrl}/aura?preloadActions`;
         const login = await request.post(loginURL, {
             headers:{
@@ -109,12 +109,15 @@ test.describe.configure({ mode: 'serial' });
         })
         const login_response = await login.json();
         console.log(login_response);
-        //expect(login_response.status()).toBe(200);   
+        //expect(login_response.status()).toBe(200);
     })
 
+    test.use({storageState: "../../AuthStorage/sales_login_storage.json"})
     test("login in salesforce for Lead user", async({page}) => {    
-        await page.waitForTimeout(5000);
-        await page.goto(`${instUrl}`);
+        await page.waitForTimeout(1000);
+        //await page.goto(`${instUrl}/lightning/setup/SetupOneHome/home`);
+        
+        await console.log(`${instUrl}/lightning/setup/SetupOneHome/home`);
         await page.waitForTimeout(9000);
         await expect(page).toHaveURL(/.*salesforce/);
     })
