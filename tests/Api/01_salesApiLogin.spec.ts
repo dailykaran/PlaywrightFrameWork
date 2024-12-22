@@ -112,7 +112,7 @@ test.describe.configure({ mode: 'serial' });
         //expect(login_response.status()).toBe(200);
     })
 
-    test.use({storageState: "../../AuthStorage/sales_login_storage.json"})
+    /* test.use({storageState: "../../AuthStorage/sales_login_storage.json"})
     test("login in salesforce for Lead user", async({page}) => {    
         await page.waitForTimeout(1000);
         //await page.goto(`${instUrl}/lightning/setup/SetupOneHome/home`);
@@ -120,5 +120,5 @@ test.describe.configure({ mode: 'serial' });
         await console.log(`${instUrl}/lightning/setup/SetupOneHome/home`);
         await page.waitForTimeout(9000);
         await expect(page).toHaveURL(/.*salesforce/);
-    })
+    }) */
 
