@@ -1,7 +1,8 @@
 import { request, test } from "@playwright/test"
-    let context:any
-    test.beforeAll('', async() => {
-        const context = await request.newContext({
+
+let context:any
+    test.beforeAll('declare the newcontext for request', async() => {
+        context = await request.newContext({
             timeout: 30000,
         })
     })
@@ -15,3 +16,12 @@ import { request, test } from "@playwright/test"
         return response;
     }
 
+    export async function httpGet(url: string, headers?: Record<string, string>) {
+        const response = await context.get(url, { headers });
+        return response;
+    }
+
+    export async function httpDelete(url: string, headers?: Record<string, string>) {
+        const response = await context.delete(url, { headers });
+        return response;
+    }

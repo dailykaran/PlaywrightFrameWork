@@ -1,7 +1,8 @@
 import { test, expect} from "@playwright/test";
 import { getBearerToken } from "../../pages/api/01_get_bearer_tokens";
-import { httpPost, httpPatch} from "../../pages/api/02_api_actions";
+import { httpPost, httpPatch, httpDelete, httpGet} from "../../pages/api/02_api_actions";
 
+test.describe.configure({ mode: 'serial' });
 test.describe("API testing with playwright request", async()=>{
         let token: any
         let instUrl:any;
@@ -15,22 +16,68 @@ test.describe("API testing with playwright request", async()=>{
 
         test(`Create a new Lead`, async ()=>{
                 const leadURL = `${instUrl}/services/data/v61.0/sobjects/Lead`;
-
-                const lead = await httpPost(leadURL, {
-                        data:{
-                               "Salutation": "Mr",
-                               "LastName": "52TestUser",
-                               "Company": "TestCloud52"
+                const lead = await httpPost(`${leadURL}`,
+                        {
+                               Salutation: "Mr",
+                               LastName: "54TestUser",
+                               Company: "TestCloud54"
                         },
-                        headers:{
+                        {
                                 "Authorization": `Bearer ${token}`,
                                 "Content-Type": "application/json"
                         }
-                })
+                )
                 const lead_response = await lead.json();
                 id = await lead_response.id;
-                expect(lead_response.status()).toBe(201);
-
+                //console.log("lead " + JSON.stringify(lead));
+                console.log("response " + JSON.stringify(lead_response));
+                console.log("id: "+ JSON.stringify(id));
+                expect(lead.ok()).toBeTruthy();
+                expect(lead.status()).toBe(201);
         })
 
+        test(`lead updated by patch`, async()=> {
+                const leadURL = `${instUrl}/services/data/v61.0/sobjects/Lead/${id}`;
+                const leadPatch = await httpPatch(`${leadURL}`, 
+                       {
+                                Title: "54TestCloud"
+                       },
+                       {
+                               "Authorization": `Bearer ${token}`,
+                               "Content-Type": "application/json"
+                        },
+                )
+                const responseBody =  await leadPatch;
+                //console.log(JSON.stringify(responseBody));
+                expect(leadPatch.status()).toBe(204);
+                console.log("leadPatch status" + leadPatch.statusText());                        
+        })
+
+        test(`Get details from a lead by GET`, async()=> {
+                const leadURL = `${instUrl}/services/data/v61.0/sobjects/Lead/${id}`;
+                const leadGet = await httpGet(`${leadURL}`, 
+                        {
+                                "Authorization": `Bearer ${token}`,
+                                "Content-Type": "application/json"
+                        },
+                );
+                const responseBody =  await leadGet;
+                console.log(JSON.stringify(responseBody));
+                expect(leadGet.status()).toBe(200);
+                console.log("leadGet status" + leadGet.statusText());                        
+        });
+
+        test('api request to delete record', async({request})=>{
+                const leadURL = `${instUrl}/services/data/v61.0/sobjects/Lead/${id}`;
+                const leadDelete = await httpDelete(`${leadURL}`,
+                    {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    },
+                )
+                //console.log(leadDelete);
+                console.log(leadDelete.status());
+                expect(leadDelete.status()).toBe(204);
+                expect(leadDelete.statusText()).toBe('No Content');
+        })
 })
