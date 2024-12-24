@@ -1,5 +1,6 @@
 import { test, expect} from "@playwright/test";
 import { getBearerToken } from "../../pages/api/01_get_bearer_tokens";
+import { readJsonfile } from '../../dataUtilities/jsonUtils'
 import { httpPost, httpPatch, httpDelete, httpGet} from "../../pages/api/02_api_actions";
 
 test.describe.configure({ mode: 'serial' });
@@ -7,20 +8,26 @@ test.describe("API testing with playwright request", async()=>{
         let token: any
         let instUrl:any;
         let id:any;
+        let jsonData: any;
         
         test.beforeAll(`Generating bearer token`, async () => {
                 const responseJson = await getBearerToken();   
                 token = responseJson.access_token;
                 instUrl = responseJson.instance_url;
+
+                //accessing the api data from json file
+                jsonData = await readJsonfile('./data/apidatas.json');
         })
 
         test(`Create a new Lead`, async ()=>{
-                const leadURL = `${instUrl}/services/data/v61.0/sobjects/Lead`;
+                const leadURL = `${instUrl}/${jsonData.URL}`;
+                console.log("leadURL:  "+ leadURL);
+                
                 const lead = await httpPost(`${leadURL}`,
                         {
-                               Salutation: "Mr",
-                               LastName: "54TestUser",
-                               Company: "TestCloud54"
+                               Salutation: jsonData.Salutation,
+                               LastName: jsonData.LastName,
+                               Company: jsonData.Company,
                         },
                         {
                                 "Authorization": `Bearer ${token}`,
@@ -37,10 +44,10 @@ test.describe("API testing with playwright request", async()=>{
         })
 
         test(`lead updated by patch`, async()=> {
-                const leadURL = `${instUrl}/services/data/v61.0/sobjects/Lead/${id}`;
-                const leadPatch = await httpPatch(`${leadURL}`, 
+                const leadURL = `${instUrl}/${jsonData.URL}/${id}`;
+                const leadPatch = await httpPatch(`${leadURL}`,
                        {
-                                Title: "54TestCloud"
+                                Title: jsonData.Title,
                        },
                        {
                                "Authorization": `Bearer ${token}`,
@@ -54,7 +61,7 @@ test.describe("API testing with playwright request", async()=>{
         })
 
         test(`Get details from a lead by GET`, async()=> {
-                const leadURL = `${instUrl}/services/data/v61.0/sobjects/Lead/${id}`;
+                const leadURL = `${instUrl}/${jsonData.URL}/${id}`;
                 const leadGet = await httpGet(`${leadURL}`, 
                         {
                                 "Authorization": `Bearer ${token}`,
@@ -62,18 +69,18 @@ test.describe("API testing with playwright request", async()=>{
                         },
                 );
                 const responseBody =  await leadGet;
-                console.log(JSON.stringify(responseBody));
+                //console.log(JSON.stringify(responseBody));
                 expect(leadGet.status()).toBe(200);
                 console.log("leadGet status" + leadGet.statusText());                        
         });
 
         test('api request to delete record', async({request})=>{
-                const leadURL = `${instUrl}/services/data/v61.0/sobjects/Lead/${id}`;
+                const leadURL = `${instUrl}/${jsonData.URL}/${id}`;
                 const leadDelete = await httpDelete(`${leadURL}`,
-                    {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json"
-                    },
+                        {
+                                "Authorization": `Bearer ${token}`,
+                                "Content-Type": "application/json"
+                        },
                 )
                 //console.log(leadDelete);
                 console.log(leadDelete.status());

@@ -1,8 +1,4 @@
-
-
 import {test, expect} from "@playwright/test"
-import { writeFileSync } from 'fs';
-
 
 test.describe.configure({ mode: 'serial' });
 
