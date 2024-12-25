@@ -20,7 +20,7 @@ export abstract class playwright_Wrapper{
         }
     }
 
-    async click(locator: string, name: String, type: string) : Promise<void>{
+    async click(locator: string, name?: String, type?: string) : Promise<void>{
         test.step(`The ${name} ${type} is clicked`, async()=>{
             await this.page.waitForSelector(locator, {state: 'attached'});
             await this.page.locator(locator).click();

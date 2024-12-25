@@ -1,11 +1,14 @@
 {
      
-        "URL": "/services/data/v61.0/sobjects/Lead",
+        "URL": "/services/data/v61.0/sobjects",
 
         "Salutation": "Mr",
         "LastName": "54TestUser",
         "Company": "TestCloud54",
-        "Title": "54TestCloud"
+        "Title": "54TestCloud",
 
+        "name" : "TestUser43",
+        "stageName" : "Value Proposition",
+        "closeDate" : "2025-01-31"
 }
 

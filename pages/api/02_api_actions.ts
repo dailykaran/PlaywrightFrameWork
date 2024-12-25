@@ -1,10 +1,11 @@
-import { request, test } from "@playwright/test"
+import { APIRequest, request, test } from "@playwright/test"
 
-let context:any
+let context: any
     test.beforeAll('declare the newcontext for request', async() => {
         context = await request.newContext({
             timeout: 30000,
         })
+        
     })
     export async function httpPost(url: string, data: any, headers?: Record<string, string>):Promise<any> {
         const response = await context.post(url, { data, headers });

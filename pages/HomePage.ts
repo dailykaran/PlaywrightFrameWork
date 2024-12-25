@@ -47,5 +47,13 @@ export class Homepage extends playwright_Wrapper{
     async digitalClickViewAll(){
         await this.click("one-app-launcher-menu lightning-button button", "View All", "Button");
     }
+
+    async serachTask(text: string){
+        await this.typeFill('one-app-launcher-search-bar input[type="search"]', 'searchBox', text);
+    }
+    
+    async clickTaskLinkButton(text: string){
+        await this.click(`one-app-launcher-tab-item a[href*=${text}]`, text, 'linkButton');
+    }
        
 }

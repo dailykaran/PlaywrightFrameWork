@@ -59,8 +59,8 @@ export default defineConfig({
   outputDir: './test-results',  
   /* Configure projects for major browsers */
   projects: [
-    //{name: 'setup', testMatch: /.*\.setup\.ts/, teardown: "teardown" },
-    //{name: 'teardown', testMatch: /.*\.teardown\.ts/},
+    {name: 'setup', testMatch: /.*\.setup\.ts/, teardown: "teardown" },
+    {name: 'teardown', testMatch: /.*\.teardown\.ts/},
     {
       name: 'Google Chrome',
       use: { 
@@ -78,15 +78,16 @@ export default defineConfig({
 
     {
       name: 'chromium',
-      testMatch: "tests/Api/salesActions.spec.ts",
+      testMatch: "tests/with_fixtures/03_opportunity.spec.ts",
       use: { 
         ...devices['Desktop Chrome'], 
         channel: 'chrome',
         launchOptions: {
           //args: ["--start-maximized"],
-          slowMo: 50
+          slowMo: 500
         },
       },
+      //ependencies: ['setup'],
     },
 
 

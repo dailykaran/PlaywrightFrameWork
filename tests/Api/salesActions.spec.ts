@@ -20,7 +20,7 @@ test.describe("API testing with playwright request", async()=>{
         })
 
         test(`Create a new Lead`, async ()=>{
-                const leadURL = `${instUrl}/${jsonData.URL}`;
+                const leadURL = `${instUrl}/${jsonData.URL}/Lead`;
                 console.log("leadURL:  "+ leadURL);
                 
                 const lead = await httpPost(`${leadURL}`,
@@ -36,7 +36,7 @@ test.describe("API testing with playwright request", async()=>{
                 )
                 const lead_response = await lead.json();
                 id = await lead_response.id;
-                //console.log("lead " + JSON.stringify(lead));
+                //console.log("lead " + JSON.stringify(lead_response));
                 console.log("response " + JSON.stringify(lead_response));
                 console.log("id: "+ JSON.stringify(id));
                 expect(lead.ok()).toBeTruthy();
@@ -44,7 +44,7 @@ test.describe("API testing with playwright request", async()=>{
         })
 
         test(`lead updated by patch`, async()=> {
-                const leadURL = `${instUrl}/${jsonData.URL}/${id}`;
+                const leadURL = `${instUrl}/${jsonData.URL}/Lead/${id}`;
                 const leadPatch = await httpPatch(`${leadURL}`,
                        {
                                 Title: jsonData.Title,
@@ -61,7 +61,7 @@ test.describe("API testing with playwright request", async()=>{
         })
 
         test(`Get details from a lead by GET`, async()=> {
-                const leadURL = `${instUrl}/${jsonData.URL}/${id}`;
+                const leadURL = `${instUrl}/${jsonData.URL}/Lead/${id}`;
                 const leadGet = await httpGet(`${leadURL}`, 
                         {
                                 "Authorization": `Bearer ${token}`,
@@ -75,7 +75,7 @@ test.describe("API testing with playwright request", async()=>{
         });
 
         test('api request to delete record', async({request})=>{
-                const leadURL = `${instUrl}/${jsonData.URL}/${id}`;
+                const leadURL = `${instUrl}/${jsonData.URL}/Lead/${id}`;
                 const leadDelete = await httpDelete(`${leadURL}`,
                         {
                                 "Authorization": `Bearer ${token}`,
