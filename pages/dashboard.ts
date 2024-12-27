@@ -7,15 +7,29 @@ export class dashboradPage extends playwright_Wrapper{
     }
 
     async serachDashboard(text: string){
+        await this.page.waitForLoadState('networkidle');
         await this.typeFill('one-app-launcher-search-bar input[type="search"]', 'searchBox', text);
     }
     
-    async clickDashboardLink(){
-        await this.click('one-app-launcher-tab-item a[href*="Dashboard"]', 'dashboard', 'linkButton');
+    async clickAppLink(name: string){
+        await this.page.waitForTimeout(1000);
+        await this.page.waitForSelector(`one-app-launcher-tab-item a[href*=${name}]`, {timeout: 3000});
+        await this.click(`one-app-launcher-tab-item a[href*=${name}]`, name, 'linkButton');
+        await this.page.waitForLoadState('networkidle');
     }
 
-    async openNewDashboard(){
-        await this.click('a.forceActionLink', 'dashboard', 'linkButton');
+    async navigateToTabTask(name: string){
+        await this.page.waitForTimeout(1000);
+        await this.page.waitForSelector(`one-app-nav-bar-item-root a[href*=${name}]`, {timeout: 3000});
+        await this.click(`one-app-nav-bar-item-root a[href*=${name}]`, name, 'linkButton');
+        await this.page.waitForLoadState('networkidle');
+    }
+
+    async openNewDashboard(name: string){
+        //await this.page.waitForLoadState('networkidle');
+        await this.click(`div[title=${name}]`, name, 'linkButton');
+/*         await this.page.waitForLoadState('networkidle')
+        await this.iframeClick('iframe[title="dashboard"]', `a[title=${name}]`); */
     }
 
     async dashboardName(dashboardName: string){

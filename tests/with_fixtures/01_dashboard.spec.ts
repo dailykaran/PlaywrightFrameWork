@@ -28,10 +28,12 @@ test.describe('Salesforce for creating a new dasboard', ()=>{
         await home.clickAppLauncher();
         await home.clickViewAll();
     
-        await dashboard.serachDashboard("dashboards");
-        await dashboard.clickDashboardLink();
+        await dashboard.serachDashboard("Accounts");
+        await dashboard.clickAppLink("Account");
         
-        await dashboard.openNewDashboard();
+        await dashboard.navigateToTabTask("Dashboard");
+
+        await dashboard.openNewDashboard("New Dashboard");
         await dashboard.dashboardDiscription(FakerData.getDescription());
         await dashboard.dashboardName(FakerData.getPersonFirstName());
         await dashboard.newDashBoardSubmit();

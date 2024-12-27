@@ -25,9 +25,7 @@ test.describe('Salesforce for creating a opportunity', ()=>{
 
         jsonData = await readJsonfile('./data/apidatas.json');
 
-        const opportunityURL = `${instUrl}/${jsonData.URL}/Opportunity`;
-        console.log("leadURL:  "+ opportunityURL);
-                
+        const opportunityURL = `${instUrl}/${jsonData.URL}/Opportunity`;               
         const opportunity = await httpPost(`${opportunityURL}`,
             {
                 name : jsonData.name,
@@ -42,14 +40,14 @@ test.describe('Salesforce for creating a opportunity', ()=>{
                 const opportunity_response = await opportunity.json();
                 id = await opportunity_response.id;
                 //console.log("opportunity: " + JSON.stringify(opportunity));
-                console.log("opportunity_response: " + JSON.stringify(opportunity_response));
-                console.log("id: "+ JSON.stringify(id));
+                //console.log("opportunity_response: " + JSON.stringify(opportunity_response));
+                //console.log("id: "+ JSON.stringify(id));
                 expect(opportunity.ok()).toBeTruthy();
                 expect(opportunity.status()).toBe(201);
     })
 
     test.use({storageState: "AuthStorage/sales_login_storage.json"})
-    test(`opportunity is update and delete`, async({home, page})=> {       
+    test(`opportunity is update`, async({home, page, opportunity})=> {       
         await home.navigateToHome();
         await home.clickAppLauncher();
         await home.clickViewAll();
@@ -58,7 +56,49 @@ test.describe('Salesforce for creating a opportunity', ()=>{
         await home.serachTask("Opportunit");
         await home.clickTaskLinkButton("Opportunit");
         await page.waitForLoadState('networkidle')
+        
+        await opportunity.show4MoreActionButton();
+        await opportunity.opportunityEdit();
         await page.waitForTimeout(2000);
+        await opportunity.opportunityEditDialog();
+        
+        await opportunity.searchAccounts();
+        await opportunity.selectAccounts();
+        
+        await opportunity.opportunityDialogInputBox('Amount', '541000'); 
+        await opportunity.opportunityDialogInputBox('NextStep', 'Child Account');
+
+        await opportunity.opportunityDropdownClick('Type');
+        await opportunity.opportunityDropdownSelect('Existing Customer - Upgrade');
+
+        await opportunity.opportunityDropdownClick('Lead');
+        await opportunity.opportunityDropdownSelect('Web');
+
+        await page.waitForTimeout(1000);
+        await opportunity.opportunityDropdownClick('Delivery');
+        await opportunity.opportunityDropdownSelect('In progress');
+
+        await opportunity.opportunityDialogInputBox('OrderNumber', '34262');
+        await opportunity.opportunityDialogInputBox('MainCompetitors', 'Testcloud aboard');
+        await opportunity.opportunityDialogInputBox('CurrentGenerators', 'Alpha');
+
+        await opportunity.opportunityDialogInputBox('Tracking', '54231');
+        await opportunity.opportunityDialogActionButtons('Save');
+
     })
 
+   
+    test.afterAll(`Delete the opportunity when created earlier`, async ()=>{
+        const OpportunityURL = `${instUrl}/${jsonData.URL}/Opportunity/${id}`;
+                const leadDelete = await httpDelete(`${OpportunityURL}`,
+                        {
+                                "Authorization": `Bearer ${token}`,
+                                "Content-Type": "application/json"
+                        },
+                )
+                //console.log(leadDelete);
+                //console.log(leadDelete.status());
+                expect(leadDelete.status()).toBe(204);
+                expect(leadDelete.statusText()).toBe('No Content');
+    })
 })

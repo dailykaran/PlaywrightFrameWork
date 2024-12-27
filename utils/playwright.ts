@@ -22,7 +22,7 @@ export abstract class playwright_Wrapper{
 
     async click(locator: string, name?: String, type?: string) : Promise<void>{
         test.step(`The ${name} ${type} is clicked`, async()=>{
-            await this.page.waitForSelector(locator, {state: 'attached'});
+            await this.page.waitForSelector(locator, {state: 'attached', timeout: 2000});
             await this.page.locator(locator).click();
         })
     }
@@ -166,4 +166,19 @@ export abstract class playwright_Wrapper{
     async delayedClick(selector: string): Promise<void>{
         await this.page.clickAndDelay(selector);
     }
+
+    async comboBoxList(locator: string, selectItem: string):Promise<void>{
+        await test.step(`Select a item from combo box ${selectItem}`, async()=>{
+            await this.page.waitForSelector(locator, {state: 'attached'});
+            await this.page.locator(locator, {hasText: selectItem}).click();
+        })
+    }
+
+/*     async type(locator: string, name: string, type: string):Promise<void> {
+        test.step(`Textbox ${name} filled with ${type} application`, async()=>{
+            await this.page.waitForSelector(locator, {state: 'attached'});
+            await this.page.locator(locator).fill(type);
+        })
+    } */
+
 }

@@ -22,7 +22,7 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 1,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : 2,
+  workers: process.env.CI ? 5 : 5,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   //reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -62,7 +62,7 @@ export default defineConfig({
     {name: 'setup', testMatch: /.*\.setup\.ts/, teardown: "teardown" },
     {name: 'teardown', testMatch: /.*\.teardown\.ts/},
     {
-      name: 'Google Chrome',
+      name: 'Google_Chrome',
       use: { 
         ...devices['Desktop Chrome'],
         channel: "chrome",
@@ -77,17 +77,17 @@ export default defineConfig({
     },
 
     {
-      name: 'chromium',
-      testMatch: "tests/with_fixtures/03_opportunity.spec.ts",
+      name: 'Chrome_Testing',
+      testMatch: "tests/with_fixtures/01_dashboard.spec.ts",
       use: { 
-        ...devices['Desktop Chrome'], 
+        ...devices['Desktop chrome'], 
         channel: 'chrome',
         launchOptions: {
           //args: ["--start-maximized"],
-          slowMo: 500
+          slowMo: 700
         },
       },
-      //ependencies: ['setup'],
+      dependencies: ['setup'],
     },
 
 
