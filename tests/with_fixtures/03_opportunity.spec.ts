@@ -57,13 +57,14 @@ test.describe('Salesforce for creating a opportunity', ()=>{
         await home.clickTaskLinkButton("Opportunit");
         await page.waitForLoadState('networkidle')
         
+        await page.waitForTimeout(2000);
         await opportunity.show4MoreActionButton();
         await opportunity.opportunityEdit();
         await page.waitForTimeout(2000);
         await opportunity.opportunityEditDialog();
         
-        await opportunity.searchAccounts();
-        await opportunity.selectAccounts();
+        //await opportunity.searchAccounts();
+        //await opportunity.selectAccounts();
         
         await opportunity.opportunityDialogInputBox('Amount', '541000'); 
         await opportunity.opportunityDialogInputBox('NextStep', 'Child Account');

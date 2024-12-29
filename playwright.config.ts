@@ -22,7 +22,7 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 1,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 5 : 5,
+  workers: process.env.CI ? 2 : 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   //reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -61,26 +61,26 @@ export default defineConfig({
   projects: [
     {name: 'setup', testMatch: /.*\.setup\.ts/, teardown: "teardown" },
     {name: 'teardown', testMatch: /.*\.teardown\.ts/},
-    {
-      name: 'Google_Chrome',
+   {
+      name: 'Api',
+      testMatch: ['tests/Api/salesActions.spec.ts'],
       use: { 
-        ...devices['Desktop Chrome'],
-        channel: "chrome",
+        ...devices['Desktop chromium'],
+        channel: "chromium",
         launchOptions: {
-          //args: ["--start-maximized"]
-          slowMo: 50
+        //args: ["--start-maximized"]
+          slowMo: 500
         },
-        //storageState: 'playwright/.AuthStorage/sales_login_storage.json',
         actionTimeout: 15000,
       },
-      //dependencies: ['setup'],
+      dependencies: ['setup'],
     },
 
     {
-      name: 'Chrome_Testing',
-      testMatch: "tests/with_fixtures/01_dashboard.spec.ts",
+      name: 'with_fixtures',
+      testMatch: ['tests/with_fixtures/03_opportunity.spec.ts'],
       use: { 
-        ...devices['Desktop chrome'], 
+        ...devices['Desktop Chrome'],
         channel: 'chrome',
         launchOptions: {
           //args: ["--start-maximized"],

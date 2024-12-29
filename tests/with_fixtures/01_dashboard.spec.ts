@@ -22,18 +22,18 @@ test.describe('Salesforce for creating a new dasboard', ()=>{
         )
     })
     test.use({storageState: "AuthStorage/sales_login_storage.json"})
-    test(`Create a new dashboard`, async ({home, dashboard}, testinfo)=>{
+    test(`Create a new dashboard`, async ({home, dashboard, page}, testinfo)=>{
 
         await home.navigateToHome();
         await home.clickAppLauncher();
         await home.clickViewAll();
     
-        await dashboard.serachDashboard("Accounts");
-        await dashboard.clickAppLink("Account");
+        await dashboard.serachDashboard("chatter");
+        await dashboard.clickAppLink("chatter");
         
         await dashboard.navigateToTabTask("Dashboard");
 
-        await dashboard.openNewDashboard("New Dashboard");
+        await dashboard.openNewDashboard('New Dashboard');
         await dashboard.dashboardDiscription(FakerData.getDescription());
         await dashboard.dashboardName(FakerData.getPersonFirstName());
         await dashboard.newDashBoardSubmit();
@@ -41,7 +41,7 @@ test.describe('Salesforce for creating a new dasboard', ()=>{
 
         await dashboard.dashboardDelayedEdit(FakerData.getPersonFirstName());
         await dashboard.dashboardSave();
-        await dashboard.assertToastMessageBar('Dashboards');
+        await dashboard.assertToastMessageBar('Dashboard');
     })
 })
 

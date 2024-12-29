@@ -25,11 +25,8 @@ export class dashboradPage extends playwright_Wrapper{
         await this.page.waitForLoadState('networkidle');
     }
 
-    async openNewDashboard(name: string){
-        //await this.page.waitForLoadState('networkidle');
-        await this.click(`div[title=${name}]`, name, 'linkButton');
-/*         await this.page.waitForLoadState('networkidle')
-        await this.iframeClick('iframe[title="dashboard"]', `a[title=${name}]`); */
+    async openNewDashboard(NewDashboard: string){
+        await this.page.getByRole('button', {name: NewDashboard}).click({force: true});
     }
 
     async dashboardName(dashboardName: string){
