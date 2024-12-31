@@ -87,8 +87,7 @@ test.describe('Salesforce for creating a opportunity', ()=>{
         await opportunity.opportunityDialogActionButtons('Save');
 
     })
-
-   
+  
     test.afterAll(`Delete the opportunity when created earlier`, async ()=>{
         const OpportunityURL = `${instUrl}/${jsonData.URL}/Opportunity/${id}`;
                 const leadDelete = await httpDelete(`${OpportunityURL}`,

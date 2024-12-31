@@ -53,7 +53,8 @@ export default defineConfig({
 
     screenshot: "only-on-failure",
 
-    storageState: "AuthStorage/sales_login_storage.json"
+    storageState: "AuthStorage/sales_login_storage.json",
+
   },
 
   outputDir: './test-results',  
@@ -90,7 +91,21 @@ export default defineConfig({
       dependencies: ['setup'],
     },
 
-
+    {
+      name: 'Testing',
+      testMatch: ['/tests/with_fixtures/*.spec.ts'],
+      use: { 
+        ...devices['Desktop chrome'],
+        channel: "chrome",
+        launchOptions: {
+        //args: ["--start-maximized"]
+          slowMo: 500
+        },
+        actionTimeout: 15000,
+      },
+      dependencies: ['setup'],
+    },
+  ]
 /*     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
@@ -101,26 +116,6 @@ export default defineConfig({
       use: { ...devices['Desktop Safari'] },
     }, */
 
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
-  ],
 
   /* Run your local dev server before starting the tests */
   // webServer: {

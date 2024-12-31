@@ -3,6 +3,7 @@ import {Homepage} from "../pages/HomePage"
 import {dashboradPage} from "../pages/dashboard"
 import {digitalExperiencesPage} from "../pages/digitalExperiences"
 import {opportunityPage} from "../pages/opportunity"
+import {workplansPage} from "../pages/workplansPage"
 import {playwright_Wrapper} from "../utils/playwright"
 import { mergeTests  } from "@playwright/test";
 import { test as baseTestBeforeAfter } from "../customFixtures/utilsBeforeAfterEach"
@@ -16,6 +17,7 @@ type salesforceFixtures = {
     dashboard: dashboradPage,
     digitalexperiences: digitalExperiencesPage,
     opportunity: opportunityPage,
+    workplans: workplansPage,
     logout: LogoutPage
 }
 
@@ -46,6 +48,11 @@ digitalexperiences: async({page, context}, use) =>{
 opportunity: async({page, context}, use) =>{
     const opportunity = new opportunityPage(page, context);
     await use(opportunity);
+},
+
+workplans: async({page, context}, use) => {
+    const workplans = new workplansPage(page, context);
+    await use(workplans);
 },
 
 logout: async({page, context}, use) => {
