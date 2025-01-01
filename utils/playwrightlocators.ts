@@ -12,9 +12,18 @@ export abstract class playwright_locators{
     async getbyrole(nametext: string, roletype?: any  ): Promise<void>{
         test.step(`The ${nametext} ${roletype} is click`, async()=>{
             console.log('display the role type: ' + typeof(roletype));
-            await this.page.getByRole(roletype , { name: nametext }).click();            
+            await this.page.getByRole(roletype , { name: nametext, exact: true }).click();            
         })
     }
+
+    async getbyroleFill(roletype: any, TextBoxName: string, TextBoxContent: string): Promise<void>{
+        test.step(`The ${TextBoxName} ${roletype} is fill`, async()=>{
+            console.log('display the role type: ' + typeof(roletype));
+            await this.page.getByRole(roletype , {name: TextBoxName}).fill(TextBoxContent);            
+        })
+    }
+
+
 
 
 }
