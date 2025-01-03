@@ -99,7 +99,7 @@ export default defineConfig({
         channel: "chrome",
         launchOptions: {
         //args: ["--start-maximized"]
-          slowMo: 700
+          slowMo: 500
         },
         actionTimeout: 15000,
       },

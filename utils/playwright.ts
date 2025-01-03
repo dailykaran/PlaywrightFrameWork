@@ -82,6 +82,16 @@ export abstract class playwright_Wrapper{
         })
     }
 
+    async assertToastMessage(locator: string, assertText: string){
+        await test.step(`Assert the toast message ${assertText}`, async()=>{
+            await this.page.waitForLoadState('domcontentloaded');
+            const toastMSG = this.page.locator(locator);
+            await expect(toastMSG).toContainText(assertText);
+            console.log(await toastMSG.innerText());
+            //await this.page.waitForSelector(locator, { state: "detached" });
+        })
+    }
+
     async waitForElementVisible(locator: string, name: string, timeoutNumber: number ){
         await test.step(`${name} element needs to be visible`, async()=>{
             await this.page.locator(locator).waitFor({state: 'visible', timeout: timeoutNumber,});
@@ -180,5 +190,18 @@ export abstract class playwright_Wrapper{
             await this.page.locator(locator).fill(type);
         })
     } */
+
+    async waitSpinnerAndClose():Promise<void>{
+        await test.step(`find the spinner and close the dialog`, async()=>{
+            await this.page.addLocatorHandler(
+                //this.page.getByRole('status').locator('visible=true'),
+                await this.page.locator('.slds-spinner_container div.slds-spinner span'),
+                async() => {
+                    await this.page.getByRole('button', {name: 'Close this window'}).click();
+                    await this.page.waitForLoadState('networkidle');
+                }
+            )
+        })
+    }
 
 }

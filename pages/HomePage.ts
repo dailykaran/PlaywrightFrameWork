@@ -55,5 +55,23 @@ export class Homepage extends playwright_Wrapper{
     async clickTaskLinkButton(text: string){
         await this.click(`one-app-launcher-tab-item a[href*=${text}]`, text, 'linkButton');
     }
-       
+      
+    async assertCommonToastMessage(assertText: string){
+        await this.assertToastMessage('span.toastMessage.forceActionsText', assertText)
+        await this.page.getByRole('button', {name: 'Close', exact:true}).click();
+    }
+
+    async handleSpinnerOnHomePage(){
+        const spinner = this.page.locator('.slds-spinner_container div.slds-spinner span');
+        if(await spinner.isVisible()){
+            await this.waitSpinnerAndClose();
+            await this.page.reload();
+            await this.page.waitForLoadState('networkidle');
+            await this.clickAppLauncher();
+            await this.clickViewAll();
+        }else{
+            console.log('Spinner icon does not appear.');
+            
+        }
+    }
 }

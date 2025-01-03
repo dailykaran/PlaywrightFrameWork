@@ -15,6 +15,19 @@ export class workplansPage extends playwright_locators {
         await this.getbyrole(buttonName, 'button');
     }
 
+    async saveEditedWorkName(editSave: string){
+        await this.page.locator(`.forceRecordEditActions button[title=${editSave}]`).click({force:true});
+        await this.page.keyboard.press('Enter');
+    }
+
+    async getByRoleMenuItem(itemName: string){
+        await this.getbyrole(itemName, 'menuitem');
+    }
+
+    async getByRoleDialog(dialogName: string){
+        await this.getbyrole(dialogName, 'dialog');
+    }
+
     async getByRoleTextbox(TextBoxName: string, TextBoxContent: string){
         await this.getbyroleFill('textbox', TextBoxName, TextBoxContent);
     }
@@ -28,6 +41,18 @@ export class workplansPage extends playwright_locators {
     
     async getByRoleParentRecord(){
         await this.getbyroleNoElementName('div.listContent', 'CHG-000000001', 'option');
+    }
+
+    async getByRoleTextboxClear(textBoxName: string){
+        await this.getbyroleClear('textbox', textBoxName);
+    }
+
+    async getByRoleGroupFilterButton(filterName: string, roletype1Text: string, roletype2Text: string){
+        await this.getbyroleGroup('group', 'button', filterName, roletype1Text, roletype2Text);
+    }
+
+    async getByRoleText(TextButton: string){
+        await this.getbyroleTitleText('Save');
     }
 
     async getbyroleNoElementName(locator: string, nametext: string, roletype?: any  ): Promise<void>{
