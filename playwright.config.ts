@@ -74,12 +74,13 @@ export default defineConfig({
         },
         actionTimeout: 15000,
       },
+      
       dependencies: ['setup'],
     },
 
     {
       name: 'with_fixtures',
-      testMatch: ['tests/with_fixtures/03_opportunity.spec.ts'],
+      testMatch: ['tests/with_fixtures/04_workplans.spec.ts'],
       use: { 
         ...devices['Desktop Chrome'],
         channel: 'chrome',

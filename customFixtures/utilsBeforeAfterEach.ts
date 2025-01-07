@@ -8,19 +8,19 @@ export const test = baseTestBeforeAfter.extend<{
     await use(page);
   },
   timeLogger: [
-    async ({}, use) => {
+    async ({}, use, testInfo,) => {
+      const getDate = () => new Date().toISOString();
       // before test
       test.info().annotations.push({
         type: "Start",
-        description: new Date().toString(),
+        description: (`${getDate()}` + " " + testInfo.title + " : " + testInfo.status)
       });
-
       await use();
 
       // after test
       test.info().annotations.push({
         type: "End",
-        description: new Date().toString(),
+        description: (`${getDate()}` + " " + testInfo.title + " : " + testInfo.status)
       });
     },
     { auto: true },

@@ -9,6 +9,7 @@ import { mergeTests  } from "@playwright/test";
 import { test as baseTestBeforeAfter } from "../customFixtures/utilsBeforeAfterEach"
 import { test as exceptionHandles} from "./exceptionHandles"
 import {test as delayAction} from "../utils/retryDelay"
+import { test as spinnerListen } from "./spinnerListen"
 import { LogoutPage } from "../pages/logoutPage";
 
 type salesforceFixtures = {
@@ -18,10 +19,10 @@ type salesforceFixtures = {
     digitalexperiences: digitalExperiencesPage,
     opportunity: opportunityPage,
     workplans: workplansPage,
-    logout: LogoutPage
+    logout: LogoutPage    
 }
 
-export const test = mergeTests(baseTestBeforeAfter, exceptionHandles, delayAction).extend<
+export const test = mergeTests(baseTestBeforeAfter, exceptionHandles, delayAction, spinnerListen).extend<
     salesforceFixtures>({
 
 login: async({page, context}, use) =>{

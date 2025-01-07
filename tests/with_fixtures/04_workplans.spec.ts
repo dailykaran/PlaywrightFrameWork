@@ -6,7 +6,7 @@ import { FakerData } from '../../utils/faker';
 test.describe('Salesforce for creating a workplans', ()=>{
 
     test.use({storageState: "AuthStorage/sales_login_storage.json"})
-    test(`add workplans and TC created by `, async({home, page, workplans})=> {
+    test(`add a new workplan, Edit the name, delete the plan`, async({home, page, workplans})=> {
 
         await home.navigateToHome();
         await home.clickAppLauncher();
@@ -34,7 +34,7 @@ test.describe('Salesforce for creating a workplans', ()=>{
         await workplans.getByRoleParentRecord();
         await workplans.getbyroleTitleText("Save"); //
 
-        await home.assertCommonToastMessage('created.');
+        await home.assertCommonToastMessage('created.no');
         
         await page.waitForLoadState('networkidle');
         await workplans.getByRoleGroupFilterButton('Name', 'Information', 'Edit Name');
