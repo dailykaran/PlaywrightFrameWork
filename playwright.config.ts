@@ -38,6 +38,8 @@ export default defineConfig({
       outputFolder: "my-allure-results",
       suiteTitle: false,
     }],
+    //custom Report from winston
+    ['./reportWinstonConfig.ts'],
   ],
 
   use: {
@@ -80,7 +82,7 @@ export default defineConfig({
 
     {
       name: 'with_fixtures',
-      testMatch: ['tests/with_fixtures/04_workplans.spec.ts'],
+      testMatch: ['tests/with_fixtures/01_dashboard.spec.ts'],
       use: { 
         ...devices['Desktop Chrome'],
         channel: 'chrome',

@@ -3,6 +3,7 @@ import {Page, test, expect, chromium, BrowserContext, Locator, Frame, FrameLocat
 export abstract class playwright_Wrapper{
     readonly page: Page
     readonly context: BrowserContext
+    protected newWindow: Page | null = null;
 
     constructor (page: Page, context: BrowserContext){
         this.page = page;
@@ -202,6 +203,16 @@ export abstract class playwright_Wrapper{
                 }
             )
         })
+    }
+
+    async handleNewTab(newWindowTabLocator: string): Promise<Page>{
+        return await test.step(`Window is opened`, async () => {
+                const [newTab] = await Promise.all([
+                this.context.waitForEvent("page"),
+                this.page.locator(newWindowTabLocator).click()
+                ]);
+                return newTab
+        });
     }
 
 }

@@ -1,4 +1,4 @@
-import{ Page, BrowserContext} from '@playwright/test'
+import{ Page, BrowserContext, expect} from '@playwright/test'
 import {urlConstants} from "../constants/urlConstants"
 import { playwright_Wrapper } from '../utils/playwright'
 
@@ -73,5 +73,17 @@ export class Homepage extends playwright_Wrapper{
             console.log('Spinner icon does not appear.');
             
         }
+    }
+
+    async handleTab(){
+        const newTab = await this.handleNewTab('button[title="Learn More"]');
+        await newTab.click('button[onclick="goAhead()"]');
+        expect(await newTab.url()).toContain('cloud');
+        console.log(" Try to get the newTab title: "  + await newTab.title());
+        await newTab.close();
+    }
+
+    async handleWindowTab(newTab: string):Promise<Page>{
+        return await this.handleNewTab(newTab);
     }
 }
