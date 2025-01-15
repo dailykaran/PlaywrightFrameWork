@@ -1,9 +1,8 @@
 import { test} from '../../customFixtures/salesforceFixtures'
 import { Page, expect} from '@playwright/test'
-import{ dashboradPage } from '../../pages/dashboard'
-import { Homepage } from '../../pages/HomePage'
 import { readJsonfile } from '../../dataUtilities/jsonUtils'
 import {FakerData } from '../../utils/faker';
+const dashboardData = require('../../data/dashboard.json')
 
 
 test.describe('Salesforce for creating a new dasboard', ()=>{
@@ -28,12 +27,12 @@ test.describe('Salesforce for creating a new dasboard', ()=>{
         await home.clickAppLauncher();
         await home.clickViewAll();
     
-        await dashboard.serachDashboard("chatter");
-        await dashboard.clickAppLink("chatter");
+        await dashboard.serachDashboard(dashboardData.navigateToTabTask);
+        await dashboard.clickAppLink(dashboardData.navigateToTabTask);
         
-        await dashboard.navigateToTabTask("Dashboard");
+        //await dashboard.navigateToTabTask("Dashboard");
 
-        await dashboard.openNewDashboard('New Dashboard');
+        await dashboard.openNewDashboard(dashboardData.openNewDashboard);
         await dashboard.dashboardDiscription(FakerData.getDescription());
         await dashboard.dashboardName(FakerData.getPersonFirstName());
         await dashboard.newDashBoardSubmit();
@@ -41,7 +40,7 @@ test.describe('Salesforce for creating a new dasboard', ()=>{
 
         await dashboard.dashboardDelayedEdit(FakerData.getPersonFirstName());
         await dashboard.dashboardSave();
-        await dashboard.assertToastMessageBar('Dashboard');
+        await dashboard.assertToastMessageBar(dashboardData.navigateToTabTask);
     })
 })
 

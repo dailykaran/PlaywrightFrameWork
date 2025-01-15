@@ -1,7 +1,9 @@
-[
+
     {
         "searchDashboardData": "dashboards",
         "dashboardNameData": "Salesforce Automation by TestCloud1",
-        "dashboardDiscriptionData": "Retesting the dashboard"
+        "dashboardDiscriptionData": "Retesting the dashboard",
+        "openNewDashboard": "New Dashboard",
+        "navigateToTabTask": "Dashboard"
+
     }
-]
