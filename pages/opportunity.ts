@@ -11,7 +11,7 @@ export class opportunityPage extends playwright_Wrapper{
     }
 
     async opportunityEdit(){
-        await this.click('div.forceActionLink[title="Edit"], Edit', 'button')
+        await this.click('div.forceActionLink[title="Edit"], Edit', 'button', 'editButton');
     }
     
     async opportunityEditDialog(){

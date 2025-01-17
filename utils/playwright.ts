@@ -38,15 +38,17 @@ export abstract class playwright_Wrapper{
     async typeEnter(locator: string, name: string, type: string):Promise<void> {
         test.step(`Textbox ${name} filled with ${type} application`, async()=>{
             await this.page.waitForSelector(locator, {state: 'attached'});
+            await expect(this.page.locator(locator)).toBeEditable();
             await this.page.locator(locator).fill(type);
             await this.page.keyboard.press('Enter');
         })
     }
 
-    async typeFill(locator: string, name: string, type: string):Promise<void> {
+    async typeFill(Locator: string, name: string, type: string):Promise<void> {
         test.step(`TextBox ${name} filled with ${type} application`, async()=>{
-            await this.page.waitForSelector(locator, {state: 'attached'});
-            await this.page.locator(locator).fill(type);
+            await this.page.waitForSelector(Locator, {state: 'attached'});
+            await expect(this.page.locator(Locator)).toBeEditable();
+            await this.page.locator(Locator).fill(type);
         })
     }
 
@@ -80,6 +82,14 @@ export abstract class playwright_Wrapper{
         await test.step(`Assert the element ${name} count is ${expectedCount}`, async()=>{
             const element = this.page.locator(locator);
             await expect(element).toHaveCount(expectedCount);
+        })
+    }
+
+    async assertURLContent(name: string){
+        await test.step(`Assert the url ${name}`, async()=>{
+            const regx = new RegExp(String.raw`/.*${name}/`, 'g');
+            await this.page.waitForURL(regx);
+            expect(this.page.url()).toContain(name);
         })
     }
 
@@ -160,6 +170,8 @@ export abstract class playwright_Wrapper{
     async iframeFill(locator: string, fillText: string, fillTextBox: string): Promise<void>{
         await test.step(`getiframe and ${fillText} in the ${fillTextBox}`, async()=>{
             await this.page.frameLocator(locator).locator(fillTextBox).fill(fillText);
+            //expect(await this.page.frameLocator(locator).locator(fillTextBox).getAttribute('value')).toContain(fillText);
+            await expect(this.page.frameLocator(locator).locator(fillTextBox)).toHaveValue(fillText);
         })
     }
 

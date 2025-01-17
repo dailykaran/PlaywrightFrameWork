@@ -5,6 +5,7 @@ import { FakerData } from '../../utils/faker';
 import { getBearerToken } from "../../pages/api/01_get_bearer_tokens";
 import { readJsonfile } from '../../dataUtilities/jsonUtils'
 import { httpPost, httpPatch, httpDelete, httpGet} from "../../pages/api/02_api_actions";
+const content = JSON.parse(JSON.stringify(require('../../data/opportunity.json')))
 
 test.describe('Salesforce for creating a opportunity', ()=>{
     let token: any
@@ -53,8 +54,8 @@ test.describe('Salesforce for creating a opportunity', ()=>{
         await home.clickViewAll();
     
         await page.waitForLoadState('networkidle')
-        await home.serachTask("Opportunit");
-        await home.clickTaskLinkButton("Opportunit");
+        await home.serachTask(content.opportunityLink);
+        await home.clickTaskLinkButton(content.opportunityLink);
         await page.waitForLoadState('networkidle')
         
         await page.waitForTimeout(2000);
@@ -64,27 +65,27 @@ test.describe('Salesforce for creating a opportunity', ()=>{
         await opportunity.opportunityEditDialog();
         
         //await opportunity.searchAccounts();
-        //await opportunity.selectAccounts();
-        
-        await opportunity.opportunityDialogInputBox('Amount', '541000'); 
-        await opportunity.opportunityDialogInputBox('NextStep', 'Child Account');
+        //await opportunity.selectAccounts();        
 
-        await opportunity.opportunityDropdownClick('Type');
-        await opportunity.opportunityDropdownSelect('Existing Customer - Upgrade');
+        await opportunity.opportunityDialogInputBox(content.opportunityDialog.AmountName, content.opportunityDialog.AmountValue); 
+        await opportunity.opportunityDialogInputBox(content.opportunityDialog.nextstep, content.opportunityDialog.childaccount);
 
-        await opportunity.opportunityDropdownClick('Lead');
-        await opportunity.opportunityDropdownSelect('Web');
+        await opportunity.opportunityDropdownClick(content.opportunityDialog.Type);
+        await opportunity.opportunityDropdownSelect(content.opportunityDialog.Customer);
+
+        await opportunity.opportunityDropdownClick(content.opportunityDialog.Lead);
+        await opportunity.opportunityDropdownSelect(content.opportunityDialog.Web);
 
         await page.waitForTimeout(1000);
-        await opportunity.opportunityDropdownClick('Delivery');
-        await opportunity.opportunityDropdownSelect('In progress');
+        await opportunity.opportunityDropdownClick(content.opportunityDialog.Delivery);
+        await opportunity.opportunityDropdownSelect(content.opportunityDialog.Inprogress);
 
-        await opportunity.opportunityDialogInputBox('OrderNumber', '34262');
-        await opportunity.opportunityDialogInputBox('MainCompetitors', 'Testcloud aboard');
-        await opportunity.opportunityDialogInputBox('CurrentGenerators', 'Alpha');
+        await opportunity.opportunityDialogInputBox(content.opportunityDialog.OrderNumber, content.opportunityDialog.Number);
+        await opportunity.opportunityDialogInputBox(content.opportunityDialog.MainCompetitors, content.opportunityDialog.Testcloud);
+        await opportunity.opportunityDialogInputBox(content.opportunityDialog.CurrentGenerators, content.opportunityDialog.Alpha);
 
-        await opportunity.opportunityDialogInputBox('Tracking', '54231');
-        await opportunity.opportunityDialogActionButtons('Save');
+        await opportunity.opportunityDialogInputBox(content.opportunityDialog.Tracking, content.opportunityDialog.Number);
+        await opportunity.opportunityDialogActionButtons(content.Save);
 
     })
   

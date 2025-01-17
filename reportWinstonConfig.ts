@@ -8,45 +8,48 @@ import {
     TestStep,
     FullResult
   } from '@playwright/test/reporter';
-  import { createLogger, format, transports } from 'winston';
+  import { createLogger, format, level, transports } from 'winston';
   import { existsSync, mkdirSync } from 'fs';
   
   const logDir = 'logs'; 
   if (!existsSync(logDir)) {
     mkdirSync(logDir);
   }
-  
+
   const myFormat = format.printf(info => {
     if(info instanceof Error) {
         return `${info.timestamp} ${info.level}: ${info.message} ${info.stack}`;
     }
     return `${info.timestamp} ${info.level}: ${info.message}`;
   });
-  let failedStyle = "color:red";
-
+ 
     const logger = createLogger({
       level: process.env.LOG_LEVEL || 'info' || 'warn' || 'error'  || 'debug' || 'http',
       format: format.combine(
+        //format.colorize({ colors: { error: 'red'}}, ),
+        //format.uncolorize(),
+        format.splat(),
         format.errors({ stack: true }), 
         format.timestamp({
           format: 'YYYY-MM-DD hh:mm:ss.SSS A',
         }), 
         format.align(),
         myFormat
-        //format.json()
       ),
-        transports: [
+      defaultMeta: { service: 'checkout-service'},
+      transports: [
           new transports.File({ filename: 'logs/error.log', level: 'error' }),
           new transports.File({ filename: 'logs/combined.log' }),
-          new transports.Console()
+          new transports.Console(),
       ],
       exceptionHandlers: [
-        new transports.File({ filename: 'logs/exception.log' }),
+        new transports.File({ filename: 'logs/exceptions.log', handleExceptions: true }),
       ],
       rejectionHandlers: [
-        new transports.File({ filename: 'logs/rejections.log' }),
+        new transports.File({ filename: 'logs/rejections.log', handleRejections: true} ),
       ],
-    });
+      //exitOnError: false,
+    });   
     
     export default class MyReporter implements Reporter {
       onBegin(config: FullConfig, suite: Suite): void {
@@ -60,9 +63,8 @@ import {
       onTestEnd(test: TestCase, result: TestResult): void {
         if(result.status === 'failed'){
           logger.error(`${test.title} Executing Test End: ${result.error?.stack} Status: ${result.status}`);
-          logger.error( `${result.error?.message}` + '\x1b[41m Status:  \x1b[0m' + `\x1b[41m  ${result.status} \x1b[0m`);
-          //logger.error(result.error?.snippet);
-          //logger.error(JSON.stringify(result.error?.location));
+          //logger.error(`${result.error?.message}` + `Status: ` + ` ${result.status} `);
+          logger.error( `${result.error?.message}` + `\x1b[41m Status: \x1b[0m` + `\x1b[41m ${result.status} \x1b[0m`);
         }else{
           logger.info(`Test Case Completed: ${test.title} Status: ${result.status}`);
         }
@@ -80,7 +82,12 @@ import {
       }
       
       onEnd(result: FullResult): Promise<{ status?: FullResult['status']; } | undefined | void> | void {
-        logger.info( '\x1b[41m Test suite is ended:  \x1b[0m' + `\x1b[41m ${result.status} \x1b[0m`);
+        if(result.status === 'failed'){
+          //logger.error(`Test suite is ended: ` + ` ${result.status}`);
+          logger.error( `\x1b[41m Test suite is ended: \x1b[0m` + `\x1b[41m ${result.status} \x1b[0m` );
+        }else{
+          logger.info( 'Test suite is ended: ' + `${result.status} `);
+        }
       }
   
       onError(error: TestError) {

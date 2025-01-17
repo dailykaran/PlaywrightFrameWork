@@ -1,0 +1,25 @@
+{
+    "opportunityLink": "Opportunit",
+    "opportunityDialog": {
+        "AmountName": "Amount", 
+        "AmountValue": "541000",
+        "nextstep": "NextStep", 
+        "childaccount": "Child Account",
+        "Type": "Type",
+        "Customer": "Existing Customer - Upgrade",
+        "Lead": "Lead",
+        "Web": "Web",
+        "Delivery": "Delivery",
+        "Inprogress": "In progress",
+
+        "OrderNumber": "OrderNumber",
+        "Number": "34262",
+        "MainCompetitors": "MainCompetitors",
+        "Testcloud": "Testcloud aboard",
+        "CurrentGenerators": "CurrentGenerators",
+        "Alpha": "Alpha",
+        "Tracking": "Tracking"
+    },
+    "Save": "Save"
+
+}
