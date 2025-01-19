@@ -1,0 +1,25 @@
+{
+    "WorkPlans" : "Work Plans",
+    "workPlanDialog" : {
+        "new": "New",
+        "name": "Name *",
+        "description" : "Description",
+        "executionorder": "Execution Order",
+        "parentrecord": "Parent Record *",
+        "save": "Save"
+    },
+    "toastMessageCreate": "created.",
+    "toastMessageDelete": "deleted.",
+    "edit":{
+        "name": "Name",
+        "information": "Information",
+        "editName": "Edit Name"
+    },
+    "showMoreActions": "Show more actions",
+    "deleteDialog":{
+        "deleteButton": "Delete",
+        "name": "Delete Work Plan"
+    }
+
+}
+

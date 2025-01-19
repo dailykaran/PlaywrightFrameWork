@@ -1,7 +1,7 @@
 import { test} from '../../customFixtures/salesforceFixtures'
 import { expect } from '@playwright/test'
-import { Homepage } from '../../pages/HomePage'
 import { FakerData } from '../../utils/faker';
+const content = JSON.parse(JSON.stringify(require('../../data/workplan.json')))
 
 test.describe('Salesforce for creating a workplans', ()=>{
 
@@ -12,46 +12,46 @@ test.describe('Salesforce for creating a workplans', ()=>{
         await home.clickAppLauncher();
         await home.clickViewAll();
     
-        await page.waitForLoadState('networkidle')
+        await page.waitForLoadState('networkidle', {timeout: 5000});
         await home.handleSpinnerOnHomePage();
 
-        await home.serachTask("work plans");
-        await workplans.getByRoleLink("Work Plans");
+        await home.serachTask(content.WorkPlans);
+        await workplans.getByRoleLink(content.WorkPlans);
         await page.waitForLoadState('networkidle');
 
-        await workplans.getByRoleButton("New");
+        await workplans.getByRoleButton(content.workPlanDialog.new);
 
         await page.waitForTimeout(1000)
-        await workplans.getByRoleTextbox("Name *", "TestUser53");
+        await workplans.getByRoleTextbox(content.workPlanDialog.name, FakerData.getPersonFirstName());
         await page.waitForLoadState('load')
-        await workplans.getByRoleTextbox("Description", "I am adding a new user");
+        await workplans.getByRoleTextbox(content.workPlanDialog.description, FakerData.getDescription());
         
-        await workplans.getByRoleTextbox("Execution Order", "45234");
+        await workplans.getByRoleTextbox(content.workPlanDialog.executionorder, `${FakerData.getAmountNumber()}`);
         await page.waitForLoadState('load')
-        await workplans.getByRoleCombobox("Parent Record *");
+        await workplans.getByRoleCombobox(content.workPlanDialog.parentrecord);
 
         await page.waitForLoadState('load')
         await workplans.getByRoleParentRecord();
-        await workplans.getbyroleTitleText("Save"); //
+        await workplans.getbyroleTitleText(content.workPlanDialog.save); //
 
-        await home.assertCommonToastMessage('created.no');
+        await home.assertCommonToastMessage(content.toastMessageCreate);
         
         await page.waitForLoadState('networkidle');
-        await workplans.getByRoleGroupFilterButton('Name', 'Information', 'Edit Name');
+        await workplans.getByRoleGroupFilterButton(content.edit.name, content.edit.information, content.edit.editName);
         
         //Edit the name box
-        await workplans.getByRoleTextboxClear("Name *");
-        await workplans.getByRoleTextbox("Name *", "NumberTestUser");
-        await workplans.saveEditedWorkName("Save");
+        await workplans.getByRoleTextboxClear(content.workPlanDialog.name);
+        await workplans.getByRoleTextbox(content.workPlanDialog.name, FakerData.getPersonFirstName());
+        await workplans.saveEditedWorkName(content.workPlanDialog.save);
         
         //delete a plan
-        await workplans.getByRoleButton('Show more actions');
-        await workplans.getByRoleMenuItem('Delete');
-        await workplans.getByRoleDialog('Delete Work Plan');
-        await workplans.getByRoleButton('Delete');
+        await workplans.getByRoleButton(content.showMoreActions);
+        await workplans.getByRoleMenuItem(content.deleteDialog.deleteButton);
+        await workplans.getByRoleDialog(content.deleteDialog.name);
+        await workplans.getByRoleButton(content.deleteDialog.deleteButton);
 
         await page.waitForLoadState('networkidle');
-        await home.assertCommonToastMessage('deleted.');
+        await home.assertCommonToastMessage(content.toastMessageDelete);
         
     })
 
