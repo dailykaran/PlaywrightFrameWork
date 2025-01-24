@@ -61,4 +61,8 @@ export class FakerData{
     static getdefinitions(): PersonDefinition{
         return fakerEN_IN.definitions;
     }
+
+    static getAmountNumber(): Number{
+        return faker.number.int({min: 50, max: 5000});
+    }
 }

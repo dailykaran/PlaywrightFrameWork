@@ -1,6 +1,6 @@
-import {test, expect} from '@playwright/test'
-//import { test } from '../../../customFixtures/salesforceFixtures'
-
+import {expect} from '@playwright/test'
+import { test } from '../../../customFixtures/salesforceFixtures'
+import { createLogger, format, level, transports } from 'winston';
 
 test.describe('before and after', ()=>{
 
@@ -29,9 +29,17 @@ test('example of rejection error', async ({page}) => {
 })
 
 test.only('example of throw error', async ({page}) => {
-  await page.goto(`data:text/html, 
-    <h1>Hello World throw error</h1>
-    <script>new Promise(function(){setTimeout(function(){throw 'or throw';}, 1000);});</script>`)
+  try{
+    await page.goto(`data:text/html, 
+      <h1>Hello World throw error</h1>
+      <script>new Promise(function(){setTimeout(function(){throw 'or throw';}, 1000);});</script>`)
+    }
+    catch(error){
+      error('An error occurred', {
+        message: error.message,
+        stack: error.stack,
+      });
+    }
     //<Img src = x onerror = "javascript: window.onerror = alert; throw XSS">`
     await page.waitForTimeout(3000);
     function calculateSquareRoot(number: number): number {

@@ -43,12 +43,12 @@ import {
           new transports.Console(),
       ],
       exceptionHandlers: [
-        new transports.File({ filename: 'logs/exceptions.log', handleExceptions: true }),
+        new transports.File({ filename: 'logs/exceptions.log', handleExceptions: true}),
       ],
       rejectionHandlers: [
         new transports.File({ filename: 'logs/rejections.log', handleRejections: true} ),
       ],
-      //exitOnError: false,
+      exitOnError: false,
     });   
     
     export default class MyReporter implements Reporter {
@@ -63,7 +63,6 @@ import {
       onTestEnd(test: TestCase, result: TestResult): void {
         if(result.status === 'failed'){
           logger.error(`${test.title} Executing Test End: ${result.error?.stack} Status: ${result.status}`);
-          //logger.error(`${result.error?.message}` + `Status: ` + ` ${result.status} `);
           logger.error( `${result.error?.message}` + `\x1b[41m Status: \x1b[0m` + `\x1b[41m ${result.status} \x1b[0m`);
         }else{
           logger.info(`Test Case Completed: ${test.title} Status: ${result.status}`);
