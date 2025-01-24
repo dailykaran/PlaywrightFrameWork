@@ -13,10 +13,11 @@ test(`Network interception using Salesforce login`, async ({page}) => {
         }
     })
 
+    
     //Enter the Username, Password and click on the Login button.
     await page.goto("https://login.salesforce.com");
     await page.fill("#username", "dinakaran@company.sandbox");
-    await page.fill("#password", "123@Testing");
+    await page.fill("#password", "MTIzQFRlc3Rpbmc=");
     await page.click("#Login");
     const title = await page.title();
     console.log(`The title of the page is ${title}`);
