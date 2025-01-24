@@ -17,7 +17,7 @@ export async function getBearerToken(): Promise<any>{
         const clientID = "3MVG9WVXk15qiz1J6CJCjggObyuHAjc_kV9.Ep5bdrXNTWxNZwA3u8pOIOhdtGRIcL9_nIhFbedSCkXzq2elS"
         const clientSecret = "C1AD2B3466BB86766A01759A9E8F43686F379E4081E6E068E36A7C69FB8A947D"
         const username = "dinakaran@company.sandbox"
-        const password = "Testing@123"
+        const password = "123@Testing"
         const grantType = "password"
 
 

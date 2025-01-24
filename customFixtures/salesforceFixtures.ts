@@ -11,6 +11,7 @@ import { test as exceptionHandles} from "./exceptionHandles"
 import {test as delayAction} from "../utils/retryDelay"
 import { test as spinnerListen } from "./spinnerListen"
 import { LogoutPage } from "../pages/logoutPage";
+import { urlConstants } from "../constants/urlConstants"
 
 type salesforceFixtures = {
     login: LoginPage,
@@ -26,8 +27,9 @@ export const test = mergeTests(baseTestBeforeAfter, exceptionHandles, delayActio
     salesforceFixtures>({
 
 login: async({page, context}, use) =>{
+    
     const login = new LoginPage(page, context);
-    await login.loginDo('dinakaran@company.sandbox', 'Testing@123');
+    await login.loginDo(urlConstants.userName, urlConstants.passWord);
     await use(login);
 },
 

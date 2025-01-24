@@ -66,7 +66,7 @@ export default defineConfig({
     {name: 'teardown', testMatch: /.*\.teardown\.ts/},
    {
       name: 'Api',
-      testMatch: ['tests/Api/salesActions.spec.ts'],
+      testMatch: ['tests/Api/*.spec.ts'],
       use: { 
         ...devices['Desktop chromium'],
         channel: "chromium",
