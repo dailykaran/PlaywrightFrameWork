@@ -11,12 +11,12 @@ test('Verify the visible element in home page', async({page, context}, testInfo)
     await expect(page).toHaveURL(/.*home/);
 
     //Matching inside a locator
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
     await homePage.clickAppLauncher();
     await homePage.clickViewAll();
-    //await homePage.waitForAppLancherDialog();
+    await homePage.waitForAppLancherDialog();
     await homePage.clickSearchApps('Marketing');
-    //await homePage.clickApp();
+    await homePage.clickApp();
     await expect(page.locator('one-appnav h1')).toContainText('Marketing');
 })
 

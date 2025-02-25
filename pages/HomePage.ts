@@ -24,12 +24,13 @@ export class Homepage extends playwright_Wrapper{
     }
 
     async clickApp(){
+        await this.page.waitForTimeout(2000);
         await this.click('one-app-launcher-app-tile a p', "ClickApp", "Link_button");
     }
 
     async clickSearchApps(SearchApps: string){
         await this.typeEnter('one-app-launcher-search-bar input[type="search"]', "SearchApps", SearchApps)
-        await this.waitForLoadState('networkidle');
+        await this.waitForLoadState('load');
     }
     
     async waitForAppLancherDialog(){

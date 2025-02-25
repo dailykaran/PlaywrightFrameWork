@@ -82,7 +82,7 @@ export default defineConfig({
 
     {
       name: 'with_fixtures',
-      testMatch: ['tests/with_fixtures/01_dashboard.spec.ts'],
+      testMatch: ['tests/without_Fixtures/01_HomePage.spec.ts'],
       use: { 
         ...devices['Desktop Chrome'],
         channel: 'chrome',

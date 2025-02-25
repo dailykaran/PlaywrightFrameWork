@@ -6,7 +6,7 @@ test.describe.configure({ mode: 'serial' });
     let instUrl:any;
     let id:any;
 
-    test.only('Generate the access token Salesforce', async({request, page}) => {
+    test('Generate the access token Salesforce', async({request, page}) => {
         const url = "https://login.salesforce.com/services/oauth2/token"
         const clientID = "3MVG9WVXk15qiz1J6CJCjggObyuHAjc_kV9.Ep5bdrXNTWxNZwA3u8pOIOhdtGRIcL9_nIhFbedSCkXzq2elS"
         const clientSecret = "C1AD2B3466BB86766A01759A9E8F43686F379E4081E6E068E36A7C69FB8A947D"
