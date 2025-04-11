@@ -76,7 +76,7 @@ import {
       }
       onStepEnd(test: TestCase, result: TestResult, step: TestStep): void {
         if (step.category === 'test.step') {
-          logger.info(`Executing Step End: ${step.title} Status: ${result.status}`);
+          logger.info(`Executing Step End: ${step.title} Status: ${result.status} duration: ${step.duration}`);
         }
       }
       

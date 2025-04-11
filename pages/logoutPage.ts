@@ -13,11 +13,11 @@ export class LogoutPage extends playwright_Wrapper {
     async logoutDo(){
         await this.page.goto(LogoutPage.pageURL);
         
-        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('load');
         await expect(this.page).toHaveTitle(/.*Home | salesforce/);
         await this.click('button.slds-global-actions__avatar', 'avatarIcon', 'button');
         await this.click('a.logout', 'avatarIcon', 'button');
-        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('load');
         await expect(this.page).toHaveTitle(/.*Login | salesforce/);
     }
 } 

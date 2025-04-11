@@ -27,32 +27,29 @@ test.skip(`Network interception using Salesforce login`, async ({page}) => {
 
 
 //This mocking script did not work as of now.
+test.use({storageState: "AuthStorage/sales_login_storage.json"})
 test("mocks a test call to API", async ({ page }) => {
-    //const routePattern = '**/aura?r='
+    const routePattern = '**/aura?r=**'
     //const routePattern = 'https://ecgroupinternational-dev-ed.develop.lightning.force.com/lightning/o/Lead/list?filterName=__Recent'
-    const routePattern = 'https://ecgroupinternational-dev-ed.develop.lightning.force.com/services/data/v61.0/sobjects/Lead'
+    //const routePattern = 'https://ecgroupinternational-dev-ed.develop.lightning.force.com/services/data/v61.0/sobjects/Lead'
   
     await page.route(routePattern, 
-        async route => {
-      const jsonResponse = {
-/*             "Title": "TestCloud",
-            "Id": "00QdM00000B2BkrUA6",
-            "DisambiguationField": "TestCloud57",
-            "Name": "57TestUser",
-            "sobjectType": "Lead" */
-            "Salutation": "Mr",
-            "LastName": "57TestUser",
-            "Company": "TestCloud57"
-      };
+        async (route) => {
+          const response = await route.fetch();
+          const json = await response.json();
+          json.Name = "59Testuser"
+          json.Title = "CloudTest"
+          console.log("Display the JSON fetch" + JSON.stringify(json.Title));
       // Fulfill the route with the JSON response
-      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(jsonResponse),});
+          await route.fulfill({ response, json});
     });
    
-    await page.goto("https://login.salesforce.com");
+/*     await page.goto("https://login.salesforce.com");
     await page.fill("#username", 'dinakaran@company.sandbox');
     await page.fill("#password", '123@Testing');
-    await page.click("#Login");
+    await page.click("#Login"); */
   
+    /* await page.goto("https://ecgroupinternational-dev-ed.develop.lightning.force.com/lightning/setup/SetupOneHome/home",);
     // Wait for the Salesforce app launcher icon to be visible
     await page.waitForSelector('div.slds-icon-waffle', { timeout: 150000 });
     const eleAppLaunch = page.locator('div.slds-icon-waffle');
@@ -66,17 +63,22 @@ test("mocks a test call to API", async ({ page }) => {
     // Search for the "Leads" option
     await page.fill('one-app-launcher-modal input.slds-input', 'Leads');
     await page.click('mark:text("Leads")');
-    await page.waitForLoadState('load');
+    await page.waitForLoadState('load'); */
   
+    await page.goto('https://ecgroupinternational-dev-ed.develop.lightning.force.com/lightning/o/Lead/list')
     // Wait for some time before checking for the text element
+    await page.waitForLoadState('load');
     await page.waitForTimeout(10000);
-  
+    expect(await page.locator('.forceInlineEditCell .slds-truncate.uiOutputText').nth(0).innerText()).toContain('CloudTest');
+    //await page.locator('th.cellContainer a').nth(0).click();
     // Check if the text element is visible on the page
-    const textElement = page.locator('a[title="57TestUser"]');
+
+    /* const textElement = page.locator('p.fieldComponent > slot > lightning-formatted-text').nth(1);
     await expect(textElement).toBeVisible({ timeout: 20000 });
     if (await textElement.isVisible()) {
       await expect(textElement).toBeVisible({ timeout: 20000 });
+      await expect(textElement.innerText()).toContain('59');
     } else {
       console.log('Text element not found');
-    }
+    } */
   });

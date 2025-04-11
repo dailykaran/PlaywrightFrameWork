@@ -39,7 +39,7 @@ export default defineConfig({
       suiteTitle: false,
     }],
     //custom Report from winston
-    ['./reportWinstonConfig.ts'],
+    //['./reportWinstonConfig.ts'],
   ],
 
   use: {
@@ -95,18 +95,18 @@ export default defineConfig({
     },
 
     {
-      name: 'Testing',
-      testMatch: ['/tests/with_fixtures/*.spec.ts'],
+      name: 'Playwrightmoviewebsite',
+      testMatch: ['/tests/Api/pw_movie_series/*.spec.ts'],
       use: { 
         ...devices['Desktop chrome'],
         channel: "chrome",
         launchOptions: {
-        //args: ["--start-maximized"]
+          //args: ["--start-maximized"],
           slowMo: 500
         },
         actionTimeout: 15000,
       },
-      dependencies: ['setup'],
+      //dependencies: ['setup'],
     },
   ]
 /*     {
