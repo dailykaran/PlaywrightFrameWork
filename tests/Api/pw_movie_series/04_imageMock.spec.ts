@@ -15,7 +15,7 @@ test.describe('Movie Details Page - Content', () => {
               async (route) => {
                 const response = await route.fetch();
                 const json = await response.json(); 
-                console.log(json);
+                //console.log(json);
                   if (json.id == "1022789"){
                     json.title = 'A man called otto'
                     json.vote_average = 9.02;
@@ -31,7 +31,7 @@ test.describe('Movie Details Page - Content', () => {
   
         await page.goto('http://localhost:3000/movie?id=1022789&page=1');
         await page.waitForLoadState('load');
-        await page.waitForResponse('**/*.jpg');
+        //await page.waitForResponse('**/*.jpg');
 
         await expect(page.locator('main div h1')).toContainText('otto');
         await expect(page.locator('main div p').first()).toHaveText('9.02');

@@ -96,7 +96,7 @@ export default defineConfig({
 
     {
       name: 'Playwrightmoviewebsite',
-      testMatch: ['/tests/Api/pw_movie_series/*.spec.ts'],
+      testMatch: ['/tests/Api/interceptions/*.spec.ts'],
       use: { 
         ...devices['Desktop chrome'],
         channel: "chrome",
